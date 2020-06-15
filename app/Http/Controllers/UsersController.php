@@ -82,4 +82,18 @@ public function show($id)
             'users' => $followers,
         ]);
     }
+    
+    public function favorites($id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->loadRelationshipCounts();
+        
+        $favorites = $user->favorites()->paginate(30);
+        
+        return view('users.favorites',[
+            'user' => $user,
+            'microposts' => $favorites,
+        ]);
+    }
 }
